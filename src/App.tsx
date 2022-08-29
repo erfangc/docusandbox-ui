@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Forms} from "./pages/Forms";
+import {Templates} from "./pages/Templates";
+import {Template} from "./pages/Template";
+import {Form} from "./pages/Form";
+import {UserProfiles} from "./pages/UserProfiles";
+import {UserProfile} from "./pages/UserProfile";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <main>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="templates" element={<Templates/>}/>
+                    <Route path="templates/:templateFilename" element={<Template/>}/>
+                    <Route path="user-profiles" element={<UserProfiles/>}/>
+                    <Route path="user-profiles/:email" element={<UserProfile/>}/>
+                    <Route path="forms" element={<Forms/>}/>
+                    <Route path="forms/:formId" element={<Form/>}/>
+                </Routes>
+            </BrowserRouter>
+        </main>
+    );
 }
 
 export default App;
