@@ -1,7 +1,6 @@
-export enum Type {
-    CHECK_BOX,
-    RADIO_BOX,
-    TEXT_FIELD,
-    SIGNATURE,
-    UNKNOWN,
-}
+export type Type = 
+    'CHECK_BOX' |
+    'RADIO_BOX' |
+    'TEXT_FIELD' |
+    'SIGNATURE' |
+    'UNKNOWN'

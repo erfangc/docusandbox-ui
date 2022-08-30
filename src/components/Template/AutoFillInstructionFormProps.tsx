@@ -1,6 +1,9 @@
 import {AutoFillInstruction} from "./AutoFillInstruction";
+import {Type} from "./Type";
 
 export interface AutoFillInstructionFormProps {
-    autoFillInstruction: AutoFillInstruction
+    type: Type
+    autoFillInstruction?: AutoFillInstruction
+    onChange: (autoFillInstruction: AutoFillInstruction) => void
 }
 

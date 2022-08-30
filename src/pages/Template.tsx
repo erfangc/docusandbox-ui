@@ -1,6 +1,8 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Field} from "../components/Template/Field";
+import {AutoFillInstructionForm} from "../components/Template/AutoFillInstructionForm";
+import {AutoFillInstruction} from "../components/Template/AutoFillInstruction";
 
 export function Template() {
 
@@ -15,22 +17,33 @@ export function Template() {
             .catch(reason => alert(reason));
     }, [templateFilename]);
 
+    const updateAutoFillInstruction = useCallback((name: string, autoFillInstruction: AutoFillInstruction) => {
+        // call API to update the field, also update locally
+    }, []);
+
     if (!state) {
         return null;
     }
 
     const fields = state?.fields?.map(({name, type, autoFillInstruction}: Field) => {
         return (
-            <div key={name} className="space-y-6">
-                <p>{name}</p>
-                <p>{type}</p>
+            <div key={name}>
+                <div className="flex items-center space-x-2">
+                    <p className="font-bold">{name}</p>
+                    <p className="text-sm font-mono">{type}</p>
+                </div>
+                <AutoFillInstructionForm 
+                    type={type}
+                    autoFillInstruction={autoFillInstruction}
+                    onChange={autoFillInstruction => updateAutoFillInstruction(name, autoFillInstruction)}
+                />
             </div>
         );
     });
 
     return (
-        <div>
-            {fields}
+        <div className="container mx-auto max-w-2xl my-20">
+            <div className="space-y-4">{fields}</div>
         </div>
     );
 }

@@ -3,6 +3,6 @@ import {AutoFillInstruction} from "./AutoFillInstruction";
 
 export interface OperandProps {
     operator: Operator
-    autoFillInstruction: AutoFillInstruction
+    autoFillInstruction?: AutoFillInstruction
     onChange: (autoFillInstruction: AutoFillInstruction) => void
 }
