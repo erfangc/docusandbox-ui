@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Field} from "../components/Template/Field";
 import {AutoFillInstructionForm} from "../components/Template/AutoFillInstructionForm";
@@ -15,12 +15,20 @@ export function Template() {
             .then(resp => resp.json())
             .then(json => setState(json))
             .catch(reason => alert(reason));
-    }, [templateFilename]);
-
-    const updateAutoFillInstruction = useCallback((name: string, autoFillInstruction: AutoFillInstruction) => {
-        console.log(name, autoFillInstruction);
-        // call API to update the field, also update locally
     }, []);
+
+    const updateAutoFillInstruction = (name: string, autoFillInstruction: AutoFillInstruction) => {
+        // call API to update the field, also update locally
+        const fields = state?.fields?.map((field: Field) => {
+            if (field.name === name) {
+                return {...field, autoFillInstruction};
+            } else {
+                return field;
+            }
+        });
+        const newState = {...state, fields};
+        setState(newState);
+    };
 
     if (!state) {
         return null;
@@ -33,7 +41,7 @@ export function Template() {
                     <p className="font-bold">{name}</p>
                     <p className="text-sm font-mono">{type}</p>
                 </div>
-                <AutoFillInstructionForm 
+                <AutoFillInstructionForm
                     type={type}
                     autoFillInstruction={autoFillInstruction}
                     onChange={autoFillInstruction => updateAutoFillInstruction(name, autoFillInstruction)}
@@ -45,6 +53,11 @@ export function Template() {
     return (
         <div className="container mx-auto max-w-2xl my-20">
             <div className="space-y-4">{fields}</div>
+            <section>
+                <pre>
+                    {JSON.stringify(state?.fields, null, ' ')}
+                </pre>
+            </section>
         </div>
     );
 }

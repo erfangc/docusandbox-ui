@@ -1,5 +1,5 @@
 import {AutoFillInstructionFormProps} from "./AutoFillInstructionFormProps";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {Operator} from "./Operator";
 import {Operand} from "./Operand";
 import {OnlyIf} from "./OnlyIf";
@@ -24,13 +24,37 @@ function activeOperator(onlyIf?: OnlyIf): Operator {
 }
 
 export function OnlyIfForm({autoFillInstruction, onChange}: AutoFillInstructionFormProps) {
-    
+
     const [operator, setOperator] = useState<Operator>(activeOperator(autoFillInstruction?.onlyIf));
     const [dataProperty, setDataProperty] = useState<string | undefined>(autoFillInstruction?.onlyIf?.dataProperty);
-    
+
+    /**
+     * Triggers (and decides whether) to submit a change. Changes may not be ready for
+     * submission yet
+     */
+    const submitChange = useCallback(() => {
+        if (!dataProperty) {
+            return;
+        }
+        onChange({
+            ...autoFillInstruction,
+            onlyIf: {
+                ...autoFillInstruction?.onlyIf,
+                dataProperty
+            }
+        });
+    }, [dataProperty]);
+
     return (
         <div>
-            <input type="text" value={dataProperty} onChange={e => setDataProperty(e.currentTarget.value)}/>
+            <input
+                type="text"
+                value={dataProperty}
+                onChange={e => setDataProperty(e.currentTarget.value)}
+                onBlur={submitChange}
+            />
+            {/* This select only toggles on/off other form inputs */}
+            {/* it's up to the individual inputs to decide whether they are ready to be submitted */}
             <select
                 name="operator"
                 onChange={e => setOperator(e.currentTarget.value as Operator)}
