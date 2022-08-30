@@ -11,6 +11,7 @@ export function CopyFromForm({autoFillInstruction, onChange}: AutoFillInstructio
 
     return (
         <label htmlFor="">
+            <p>Copy from</p>
             <input
                 type="text"
                 value={value}

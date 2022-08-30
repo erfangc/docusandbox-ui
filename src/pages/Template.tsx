@@ -18,6 +18,7 @@ export function Template() {
     }, [templateFilename]);
 
     const updateAutoFillInstruction = useCallback((name: string, autoFillInstruction: AutoFillInstruction) => {
+        console.log(name, autoFillInstruction);
         // call API to update the field, also update locally
     }, []);
 
