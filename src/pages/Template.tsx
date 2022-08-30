@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {AutoFillInstructionFormProps} from "./AutoFillInstructionFormProps";
+import {Field} from "../components/Template/Field";
 
 export function Template() {
 
@@ -19,12 +19,11 @@ export function Template() {
         return null;
     }
 
-    const fields = state?.fields?.map((field: any) => {
-        const autoFillInstruction = field.autoFillInstruction;
+    const fields = state?.fields?.map(({name, type, autoFillInstruction}: Field) => {
         return (
-            <div key={field.name} className="space-y-6">
-                <p>{field.name}</p>
-                <p>{field.type}</p>
+            <div key={name} className="space-y-6">
+                <p>{name}</p>
+                <p>{type}</p>
             </div>
         );
     });
@@ -36,9 +35,3 @@ export function Template() {
     );
 }
 
-export function AutoFillInstructionForm({autoFillInstruction}: AutoFillInstructionFormProps) {
-    const {copyFrom, onlyIf} = autoFillInstruction;
-    return (
-        <div></div>
-    )
-}

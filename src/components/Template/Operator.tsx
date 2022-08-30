@@ -1,0 +1,1 @@
+export type Operator = 'NA' | 'GREATER_THAN' | 'LESS_THAN' | 'EQUALS' | 'IS_ONE_OF';
