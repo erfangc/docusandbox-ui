@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {Field} from "../components/Template/Field";
 import {AutoFillInstructionForm} from "../components/Template/AutoFillInstructionForm";
@@ -16,6 +16,25 @@ export function Template() {
             .then(json => setState(json))
             .catch(reason => alert(reason));
     }, []);
+    
+    function handleFileUpload({target}: React.ChangeEvent<HTMLInputElement>) {
+        const file = target.files?.item(0);
+        if (!file) {
+            return;
+        }
+        const formData = new FormData();
+        formData.append('file', file);
+        fetch(
+            `/api/templates`,
+            {
+                method: 'POST',
+                body: formData
+            }
+        )
+            .then(resp => resp.json())
+            .then(json => window.location.href = `/templates/${json.filename}`)
+            .catch(reason => alert(reason));
+    }
 
     const updateAutoFillInstruction = (name: string, autoFillInstruction: AutoFillInstruction) => {
         // call API to update the field, also update locally
@@ -51,9 +70,24 @@ export function Template() {
 
     return (
         <div className="container mx-auto my-20">
-            <div className="space-y-6 divide-gray-300 divide-y">
+            <section className="border-b pb-4">
+                <label
+                    className="cursor-pointer bg-gray-200 text-gray-800 p-2 rounded border border-gray-600 border-dashed"
+                    htmlFor="file-upload"
+                >
+                    Choose Template File
+                </label>
+                <input className="opacity-0" id="file-upload" type="file" name="file" onChange={handleFileUpload}/>
+                <div className="flex mt-2 items-center text-gray-800">
+                    <p>Filename:</p>
+                    <p className="ml-2 text-gray-600">
+                        {templateFilename}
+                    </p>
+                </div>
+            </section>
+            <section className="space-y-6 divide-gray-300 divide-y">
                 {fields}
-            </div>
+            </section>
         </div>
     );
 }
