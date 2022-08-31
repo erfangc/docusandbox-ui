@@ -47,9 +47,10 @@ export function OnlyIfForm({autoFillInstruction, onChange}: AutoFillInstructionF
 
     return (
         <div className="flex space-x-4">
-            <div className="flex space-x-4">
+            <div>
                 <input
                     type="text"
+                    className="rounded"
                     value={dataProperty}
                     onChange={e => setDataProperty(e.currentTarget.value)}
                     onBlur={submitChange}
@@ -57,6 +58,7 @@ export function OnlyIfForm({autoFillInstruction, onChange}: AutoFillInstructionF
                 {/* This select only toggles on/off other form inputs */}
                 {/* it's up to the individual inputs to decide whether they are ready to be submitted */}
                 <select
+                    className="ml-4 rounded"
                     name="operator"
                     onChange={e => setOperator(e.currentTarget.value as Operator)}
                     value={operator}

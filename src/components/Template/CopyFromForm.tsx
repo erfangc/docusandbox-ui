@@ -10,14 +10,15 @@ export function CopyFromForm({autoFillInstruction, onChange}: AutoFillInstructio
     }
 
     return (
-        <label htmlFor="">
-            <p>Copy from</p>
+        <label>
+            <p className="text-gray-600 text-sm mt-2 mb-1">Copy From</p>
             <input
                 type="text"
+                className="rounded"
                 value={value}
                 onChange={e => setValue(e.currentTarget.value)}
                 onBlur={submitChange}
             />
         </label>
-    )
+    );
 }

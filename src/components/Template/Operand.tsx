@@ -91,6 +91,7 @@ export function Operand({onChange, autoFillInstruction, operator}: OperandProps)
         case "GREATER_THAN":
             operand = (
                 <input
+                    className="rounded"
                     key='greaterThan'
                     type="number" value={greaterThan}
                     onChange={e => setGreaterThan(parseFloat(e.currentTarget.value))}
@@ -101,6 +102,7 @@ export function Operand({onChange, autoFillInstruction, operator}: OperandProps)
         case "EQUALS":
             operand = (
                 <input
+                    className="rounded"
                     key='equals'
                     type="text"
                     value={equals}
@@ -121,6 +123,7 @@ export function Operand({onChange, autoFillInstruction, operator}: OperandProps)
         case "LESS_THAN":
             operand = (
                 <input
+                    className="rounded"
                     key='lessThan'
                     type="number"
                     value={lessThan}
@@ -133,7 +136,7 @@ export function Operand({onChange, autoFillInstruction, operator}: OperandProps)
             operand = (
                 <span className="flex space-x-2 items-center">
                     <input
-                        className="w-40"
+                        className="w-40 rounded"
                         key='lowerBound'
                         type="number"
                         value={lowerBound}
@@ -142,7 +145,7 @@ export function Operand({onChange, autoFillInstruction, operator}: OperandProps)
                     />
                     <p>and</p>
                     <input
-                        className="w-40"
+                        className="w-40 rounded"
                         key='upperBound'
                         type="number"
                         value={upperBound}

@@ -19,15 +19,14 @@ export function Template() {
 
     const updateAutoFillInstruction = (name: string, autoFillInstruction: AutoFillInstruction) => {
         // call API to update the field, also update locally
-        const fields = state?.fields?.map((field: Field) => {
-            if (field.name === name) {
-                return {...field, autoFillInstruction};
-            } else {
-                return field;
-            }
-        });
-        const newState = {...state, fields};
-        setState(newState);
+        fetch(
+            `/api/templates/${templateFilename}/${name}`,
+            {
+                method: 'PATCH',
+                body: JSON.stringify(autoFillInstruction),
+                headers: {'Content-Type': 'application/json'}
+            },
+        ).then(resp => resp.json()).then(json => setState(json)).catch(reason => alert(reason));
     };
 
     if (!state) {
@@ -37,7 +36,7 @@ export function Template() {
     const fields = state?.fields?.map(({name, type, autoFillInstruction}: Field) => {
         return (
             <div key={name} className="pt-6">
-                <div className="flex items-center space-x-2">
+                <div className="text-gray-700 flex items-center space-x-2">
                     <p className="font-semibold">{name}</p>
                     <p className="text-xs font-mono">{type}</p>
                 </div>
@@ -55,11 +54,6 @@ export function Template() {
             <div className="space-y-6 divide-gray-300 divide-y">
                 {fields}
             </div>
-            <section className="mt-4">
-                <pre>
-                    {JSON.stringify(state?.fields, null, ' ')}
-                </pre>
-            </section>
         </div>
     );
 }
