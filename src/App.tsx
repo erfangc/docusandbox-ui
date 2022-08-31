@@ -18,8 +18,7 @@ function App() {
                     <Route path="templates/:templateFilename" element={<Template/>}/>
                     <Route path="user-profiles" element={<UserProfiles/>}/>
                     <Route path="user-profiles/:email" element={<UserProfile/>}/>
-                    <Route path="forms" element={<Forms/>}/>
-                    <Route path="forms/:formId" element={<Form/>}/>
+                    <Route path="templates/:templateFilename/forms/:formId" element={<Form/>}/>
                     <Route path="/" element={<Home/>}/>
                 </Routes>
             </BrowserRouter>
