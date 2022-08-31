@@ -6,6 +6,7 @@ import {Template} from "./pages/Template";
 import {Form} from "./pages/Form";
 import {UserProfiles} from "./pages/UserProfiles";
 import {UserProfile} from "./pages/UserProfile";
+import {Home} from "./Home";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                     <Route path="user-profiles/:email" element={<UserProfile/>}/>
                     <Route path="forms" element={<Forms/>}/>
                     <Route path="forms/:formId" element={<Form/>}/>
+                    <Route path="/" element={<Home/>}/>
                 </Routes>
             </BrowserRouter>
         </main>
