@@ -36,10 +36,10 @@ export function Template() {
 
     const fields = state?.fields?.map(({name, type, autoFillInstruction}: Field) => {
         return (
-            <div key={name}>
+            <div key={name} className="pt-6">
                 <div className="flex items-center space-x-2">
-                    <p className="font-bold">{name}</p>
-                    <p className="text-sm font-mono">{type}</p>
+                    <p className="font-semibold">{name}</p>
+                    <p className="text-xs font-mono">{type}</p>
                 </div>
                 <AutoFillInstructionForm
                     type={type}
@@ -51,9 +51,11 @@ export function Template() {
     });
 
     return (
-        <div className="container mx-auto max-w-2xl my-20">
-            <div className="space-y-4">{fields}</div>
-            <section>
+        <div className="container mx-auto my-20">
+            <div className="space-y-6 divide-gray-300 divide-y">
+                {fields}
+            </div>
+            <section className="mt-4">
                 <pre>
                     {JSON.stringify(state?.fields, null, ' ')}
                 </pre>

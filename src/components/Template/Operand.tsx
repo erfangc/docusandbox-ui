@@ -131,22 +131,25 @@ export function Operand({onChange, autoFillInstruction, operator}: OperandProps)
             break
         case "IS_BETWEEN":
             operand = (
-                <>
+                <span className="flex space-x-2 items-center">
                     <input
+                        className="w-40"
                         key='lowerBound'
                         type="number"
                         value={lowerBound}
                         onChange={e => setLowerBound(parseFloat(e.currentTarget.value))}
                         onBlur={submitChange}
                     />
+                    <p>and</p>
                     <input
+                        className="w-40"
                         key='upperBound'
                         type="number"
                         value={upperBound}
                         onChange={e => setUpperBound(parseFloat(e.currentTarget.value))}
                         onBlur={submitChange}
                     />
-                </>
+                </span>
             );
             break;
         case "NA":

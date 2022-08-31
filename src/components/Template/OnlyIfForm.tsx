@@ -46,27 +46,29 @@ export function OnlyIfForm({autoFillInstruction, onChange}: AutoFillInstructionF
     }, [dataProperty]);
 
     return (
-        <div>
-            <input
-                type="text"
-                value={dataProperty}
-                onChange={e => setDataProperty(e.currentTarget.value)}
-                onBlur={submitChange}
-            />
-            {/* This select only toggles on/off other form inputs */}
-            {/* it's up to the individual inputs to decide whether they are ready to be submitted */}
-            <select
-                name="operator"
-                onChange={e => setOperator(e.currentTarget.value as Operator)}
-                value={operator}
-            >
-                <option value={'NA'}>N/A</option>
-                <option value={'GREATER_THAN'}>Greater Than</option>
-                <option value={'IS_BETWEEN'}>Is Between</option>
-                <option value={'LESS_THAN'}>Less Than</option>
-                <option value={'EQUALS'}>Equals</option>
-                <option value={'IS_ONE_OF'}>Is One Of</option>
-            </select>
+        <div className="flex space-x-4">
+            <div className="flex space-x-4">
+                <input
+                    type="text"
+                    value={dataProperty}
+                    onChange={e => setDataProperty(e.currentTarget.value)}
+                    onBlur={submitChange}
+                />
+                {/* This select only toggles on/off other form inputs */}
+                {/* it's up to the individual inputs to decide whether they are ready to be submitted */}
+                <select
+                    name="operator"
+                    onChange={e => setOperator(e.currentTarget.value as Operator)}
+                    value={operator}
+                >
+                    <option value={'NA'}>N/A</option>
+                    <option value={'GREATER_THAN'}>Greater Than</option>
+                    <option value={'IS_BETWEEN'}>Is Between</option>
+                    <option value={'LESS_THAN'}>Less Than</option>
+                    <option value={'EQUALS'}>Equals</option>
+                    <option value={'IS_ONE_OF'}>Is One Of</option>
+                </select>
+            </div>
             {
                 operator != 'NA' &&
                 <Operand operator={operator} autoFillInstruction={autoFillInstruction} onChange={onChange}/>
