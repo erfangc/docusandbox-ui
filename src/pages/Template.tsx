@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Field} from "../components/Template/Field";
 import {AutoFillInstructionForm} from "../components/Template/AutoFillInstructionForm";
 import {AutoFillInstruction} from "../components/Template/AutoFillInstruction";
@@ -10,6 +10,8 @@ export function Template() {
     const [state, setState] = useState<any>();
     const params = useParams();
     const templateFilename = params['templateFilename'];
+    const [email, setEmail] = useState<string>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`/api/templates/${templateFilename}`)
@@ -34,6 +36,24 @@ export function Template() {
         return null;
     }
 
+    // create a new Form from this template
+    // then navigate to that form
+    const createForm = () => {
+        if (!email) {
+            return;
+        }
+        fetch(
+            `/api/forms?templateFilename=${templateFilename}&email=${email}`,
+            {
+                method: 'POST',
+                body: JSON.stringify({}),
+                headers: {'Content-Type': 'application/json'}
+            },
+        )
+            .then(resp => resp.json())
+            .then(json => navigate(`/templates/${templateFilename}/forms/${json.formId}`));
+    };
+
     const fields = state?.fields?.map(({name, type, autoFillInstruction}: Field) => {
         return (
             <div key={name} className="pt-6">
@@ -56,7 +76,34 @@ export function Template() {
             <section className="space-y-6 divide-gray-300 divide-y">
                 {fields}
             </section>
+            <section className="mt-20">
+                <label htmlFor="recipientEmail">
+                    <p>Recipient Email</p>
+                    <input
+                        id="recipientEmail"
+                        name="email"
+                        type="email"
+                        className="mr-4 rounded"
+                        value={email}
+                        placeholder="ex: john@gmail.com"
+                        onChange={e => setEmail(e.currentTarget.value)}
+                    />
+                </label>
+                <PrimaryButton onClick={createForm}>
+                    + Form from this Template
+                </PrimaryButton>
+            </section>
         </div>
     );
 }
 
+export function PrimaryButton({
+                                  children,
+                                  ...props
+                              }: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
+    return (
+        <button className="bg-blue-600 px-3 py-2 text-blue-100 rounded" {...props}>
+            {children}
+        </button>
+    );
+}

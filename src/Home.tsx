@@ -14,7 +14,9 @@ export function Home() {
             </p>
             <h2 className="text-xl mb-2">What can you do in this app:</h2>
             <ul className="list-inside list-disc">
-                <li><Link to={'/templates'}>Upload an AcroForm PDF as a template</Link></li>
+                <li>
+                    <Link className="text-blue-700 underline" to={'/templates'}>Upload an AcroForm PDF as a template</Link>
+                </li>
                 <li>Create an user profile</li>
                 <li>Map fields in uploaded PDF template to user profile data items</li>
                 <li>Create / modify a form using the template</li>
