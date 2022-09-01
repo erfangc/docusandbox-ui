@@ -17,7 +17,7 @@ export function Home() {
                 <li>
                     <Link className="text-blue-700 underline" to={'/templates'}>Upload an AcroForm PDF as a template</Link>
                 </li>
-                <li>Create an user profile</li>
+                <li><Link className="text-blue-700 underline" to={'/user-profiles'}>Create an user profile</Link></li>
                 <li>Map fields in uploaded PDF template to user profile data items</li>
                 <li>Create / modify a form using the template</li>
                 <li>Fill the form digitally and submit the filled PDF to DocuSign</li>
