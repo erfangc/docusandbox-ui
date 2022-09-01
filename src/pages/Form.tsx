@@ -54,7 +54,7 @@ export function Form() {
 
     const fields = template?.fields || [];
     const fieldInputs = fields
-        .filter(field => !field.autoFillInstruction)
+        .filter(field => !field.autoFillInstruction || (!field.autoFillInstruction.copyFrom && !field.autoFillInstruction.onlyIf))
         .map(field => (
             <FieldInput
                 key={field.name}
