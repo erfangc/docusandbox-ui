@@ -34,7 +34,7 @@ export function TemplateUpload() {
                 Choose Template File
             </label>
             <input className="opacity-0" id="file-upload" type="file" name="file" onChange={handleFileUpload}/>
-            <div className="flex mt-2 items-center text-gray-800">
+            <div className="flex mt-2 items-center text-gray-800 pt-2">
                 <p>Filename:</p>
                 <p className="ml-2 text-gray-600">
                     {templateFilename}

@@ -73,10 +73,10 @@ export function Template() {
     return (
         <div className="container mx-auto my-20">
             <TemplateUpload/>
-            <section className="space-y-6 divide-gray-300 divide-y">
-                {fields}
-            </section>
-            <section className="mt-20">
+            <section className="grid grid-cols-4 mb-20">{fields}</section>
+            <hr/>
+            <h1 className="my-6 text-lg font-semibold">Fill out a Form using This Template</h1>
+            <section>
                 <label htmlFor="recipientEmail">
                     <p>Recipient Email</p>
                     <input
@@ -90,17 +90,14 @@ export function Template() {
                     />
                 </label>
                 <PrimaryButton onClick={createForm}>
-                    + Form from this Template
+                    + Create
                 </PrimaryButton>
             </section>
         </div>
     );
 }
 
-export function PrimaryButton({
-                                  children,
-                                  ...props
-                              }: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
+export function PrimaryButton({ children, ...props }: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
     return (
         <button className="bg-blue-600 px-3 py-2 text-blue-100 rounded" {...props}>
             {children}
