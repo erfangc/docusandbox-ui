@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {PrimaryButton} from "./Template";
 import {useNavigate, useParams} from "react-router-dom";
+import {PrimaryButton} from "../components/PrimaryButton";
 
 interface UserProfileType {
     email?: string

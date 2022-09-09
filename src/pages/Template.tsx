@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Field} from "../components/Template/Field";
-import {AutoFillInstructionForm} from "../components/Template/AutoFillInstructionForm";
-import {AutoFillInstruction} from "../components/Template/AutoFillInstruction";
 import {TemplateUpload} from "./TemplateUpload";
+import {PrimaryButton} from "../components/PrimaryButton";
+import {FieldForm} from "../components/Template/FieldForm";
 
 export function Template() {
 
@@ -20,13 +20,14 @@ export function Template() {
             .catch(reason => alert(reason));
     }, []);
 
-    const updateAutoFillInstruction = (name: string, autoFillInstruction: AutoFillInstruction) => {
+    const updateField = (field: Field) => {
         // call API to update the field, also update locally
+        const fieldName = field.name;
         fetch(
-            `/api/templates/${templateFilename}/${name}`,
+            `/api/templates/${templateFilename}/${fieldName}`,
             {
                 method: 'PATCH',
-                body: JSON.stringify(autoFillInstruction),
+                body: JSON.stringify(field),
                 headers: {'Content-Type': 'application/json'}
             },
         ).then(resp => resp.json()).then(json => setState(json)).catch(reason => alert(reason));
@@ -54,18 +55,15 @@ export function Template() {
             .then(json => navigate(`/templates/${templateFilename}/forms/${json.formId}`));
     };
 
-    const fields = state?.fields?.map(({name, type, autoFillInstruction}: Field) => {
+    const fields = state?.fields?.map((field: Field) => {
+        const {name, type} = field;
         return (
             <div key={name} className="pt-6">
                 <div className="text-gray-700 flex items-center space-x-2">
                     <p className="font-semibold">{name}</p>
                     <p className="text-xs font-mono">{type}</p>
                 </div>
-                <AutoFillInstructionForm
-                    type={type}
-                    autoFillInstruction={autoFillInstruction}
-                    onChange={autoFillInstruction => updateAutoFillInstruction(name, autoFillInstruction)}
-                />
+                <FieldForm field={field} onChange={updateField}/>
             </div>
         );
     });
@@ -97,10 +95,8 @@ export function Template() {
     );
 }
 
-export function PrimaryButton({ children, ...props }: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>) {
-    return (
-        <button className="bg-blue-600 px-3 py-2 text-blue-100 rounded" {...props}>
-            {children}
-        </button>
-    );
+export interface FieldFormProps {
+    field: Field
+    onChange: (field: Field) => void
 }
+

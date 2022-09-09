@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Field} from "../components/Template/Field";
 import {useParams} from "react-router-dom";
-import {PrimaryButton} from "./Template";
+import {PrimaryButton} from "../components/PrimaryButton";
 
 interface Template {
     filename: string

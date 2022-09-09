@@ -1,9 +1,12 @@
 import {Type} from "./Type";
-import {AutoFillInstruction} from "./AutoFillInstruction";
+import {AutoCheckIf} from "./AutoCheckIf";
+import {RadioOption} from "./RadioOption";
 
 export interface Field {
     name: string
     type: Type
     pages: number[]
-    autoFillInstruction?: AutoFillInstruction
+    radioOptions?: RadioOption[]
+    autoFillFormula?: string
+    autoCheckIf?: AutoCheckIf
 }
