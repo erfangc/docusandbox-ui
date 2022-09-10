@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import {Field} from "../components/Template/Field";
 import {useParams} from "react-router-dom";
 import {PrimaryButton} from "../components/PrimaryButton";
+import {Field} from "../components/Template/models/Field";
 
 interface Template {
     filename: string
@@ -53,16 +53,8 @@ export function Form() {
     };
 
     const fields = template?.fields || [];
-    const fieldInputs = fields
-        .filter(field => !field.autoFillInstruction || (!field.autoFillInstruction.copyFrom && !field.autoFillInstruction.onlyIf))
-        .map(field => (
-            <FieldInput
-                key={field.name}
-                field={field}
-                onChange={v => updateInput(field.name, v)}
-                value={form?.input[field.name]}
-            />)
-        );
+    // TODO build new inputs
+    const fieldInputs = <></>;
 
     return (
         <div className="container mx-auto my-20 space-y-6">
@@ -77,72 +69,5 @@ export function Form() {
                 </PrimaryButton>
             </section>
         </div>
-    );
-}
-
-interface FieldInputProps {
-    field: Field
-    value: any
-    onChange: (str?: any) => void
-}
-
-export function FieldInput(props: FieldInputProps) {
-    const {field: {type}} = props;
-    if (type === "TEXT_FIELD") {
-        return <TextFieldInput {...props}/>;
-    } else if (type === 'CHECK_BOX') {
-        return <CheckboxFieldInput {...props}/>;
-    } else {
-        return null;
-    }
-}
-
-export function TextFieldInput({field, value, onChange}: FieldInputProps) {
-    const [tempValue, setTempValue] = useState(value);
-
-    useEffect(() => {
-        setTempValue(value);
-    }, [value]);
-
-    const submit = () => {
-        onChange(tempValue);
-    };
-
-    return (
-        <label>
-            <p>{field.name}</p>
-            <input
-                name={field.name}
-                type="text"
-                value={tempValue}
-                onChange={e => setTempValue(e.currentTarget.value)}
-                onBlur={submit}
-            />
-        </label>
-    );
-}
-
-export function CheckboxFieldInput({field, value, onChange}: FieldInputProps) {
-    const [tempValue, setTempValue] = useState<boolean>(value);
-    
-    useEffect(() => {
-        setTempValue(value);
-    }, [value]);
-    
-    const submit = () => {
-        onChange(tempValue);
-    };
-    
-    return (
-        <label>
-            <p>{field.name}</p>
-            <input 
-                name={field.name}
-                type="checkbox" 
-                checked={tempValue}
-                onChange={e => setTempValue(e.currentTarget.checked)}
-                onBlur={submit}
-            />
-        </label>
     );
 }

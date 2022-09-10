@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {Field} from "../components/Template/Field";
 import {TemplateUpload} from "./TemplateUpload";
 import {PrimaryButton} from "../components/PrimaryButton";
-import {FieldForm} from "../components/Template/FieldForm";
+import {Field} from "../components/Template/models/Field";
+import {FieldForm} from "../components/Template/FieldForms/FieldForm";
 
 export function Template() {
 
@@ -11,6 +11,7 @@ export function Template() {
     const params = useParams();
     const templateFilename = params['templateFilename'];
     const [email, setEmail] = useState<string>();
+    const [currField, setCurrField] = useState<Field>();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,7 +31,10 @@ export function Template() {
                 body: JSON.stringify(field),
                 headers: {'Content-Type': 'application/json'}
             },
-        ).then(resp => resp.json()).then(json => setState(json)).catch(reason => alert(reason));
+        )
+            .then(resp => resp.json())
+            .then(json => setState(json))
+            .catch(reason => alert(reason));
     };
 
     if (!state) {
@@ -58,20 +62,30 @@ export function Template() {
     const fields = state?.fields?.map((field: Field) => {
         const {name, type} = field;
         return (
-            <div key={name} className="pt-6">
-                <div className="text-gray-700 flex items-center space-x-2">
-                    <p className="font-semibold">{name}</p>
-                    <p className="text-xs font-mono">{type}</p>
-                </div>
-                <FieldForm field={field} onChange={updateField}/>
-            </div>
+            <li 
+                key={name}
+                className={currField?.name === field.name ? 'bg-gray-200 px-4 py-1' : 'px-4 py-1'}
+            >
+                <a
+                    className="flex mt-1 items-center justify-between cursor-pointer space-x-4"
+                    onClick={() => setCurrField(field)}
+                >
+                    <span className="font-semibold">{name}</span>
+                    <span className="text-xs font-mono">{type}</span>
+                </a>
+            </li>
         );
     });
 
     return (
-        <div className="container mx-auto my-20">
+        <div className="container mx-auto my-12">
             <TemplateUpload/>
-            <section className="grid grid-cols-4 mb-20">{fields}</section>
+            <div className="flex my-12">
+                <ul className="divide-y">{fields}</ul>
+                <section className="ml-12">
+                    {currField && <FieldForm field={currField} onChange={updateField}/>}
+                </section>
+            </div>
             <hr/>
             <h1 className="my-6 text-lg font-semibold">Fill out a Form using This Template</h1>
             <section>
@@ -87,16 +101,8 @@ export function Template() {
                         onChange={e => setEmail(e.currentTarget.value)}
                     />
                 </label>
-                <PrimaryButton onClick={createForm}>
-                    + Create
-                </PrimaryButton>
+                <PrimaryButton onClick={createForm}>Create</PrimaryButton>
             </section>
         </div>
     );
 }
-
-export interface FieldFormProps {
-    field: Field
-    onChange: (field: Field) => void
-}
-
